@@ -38,10 +38,21 @@ def search(term, num_results=10, lang="en", proxy=None, advanced=False, sleep_in
     # Proxy
     proxies = None
     if proxy:
-        if proxy.startswith("https"):
-            proxies = {"https": proxy}
+        # if proxy.startswith("https"):
+        #     proxies = {"https": proxy}
+        # else:
+        #     proxies = {"http": proxy}
+        # Fix for http proxy, it was failing to recognize and be used.
+        if proxy.startswith("http"):
+            proxies = {
+                'http' : proxy,
+                'https' : proxy
+                }
         else:
-            proxies = {"http": proxy}
+            proxies = {
+                'http' : f'http://{proxy}',
+                'https' : f'http://{proxy}'
+                }
 
     # Fetch
     start = 0
